@@ -802,17 +802,6 @@ def run_matrix_sweep_c002():
 
     # Process timeframe by timeframe to optimize memory loading
     for tf in timeframes:
-        if tf == "15m":
-            print("\n1H timeframe complete. Pausing sweep before 15m as requested by user.")
-            dashboard.update_candidate_progress(
-                candidate_id="Candidate 02",
-                stage="Discovery Sweep",
-                status="PAUSED",
-                progress_pct=(global_index / total_runs) * 100.0,
-                notes=f"Paused before 15m timeframe. Completed {global_index} of {total_runs} experiments."
-            )
-            sys.exit(0)
-
         tf_combos = [c for c in combinations if c[0] == tf]
         tf_combos_to_run = [c for c in tf_combos if get_combo_key(c) not in completed_keys]
 
