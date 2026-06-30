@@ -1,0 +1,22 @@
+scenario,label,n_trades,win_rate,pf,expectancy,max_dd,cagr,net_return,risk_of_ruin,gap_pct,avg_sl_pct,add_r_per_pos,loss_per_pos_pct,worst_total_dd,expected_dd,post_crash_equity_worst,post_crash_equity_expected,survivable,add_r_p99,add_equity_loss_p99,multiplier
+Baseline,Baseline,180.0,44.4,1.408,0.2462,29.83,25.74,121.17,0.0,,,,,,,,,,,,
+A: SL=2R,A: SL=2R,180.0,44.4,0.765,-0.2612,73.45,-26.93,-66.28,25.22,,,,,,,,,,,,
+B: SL=3R,B: SL=3R,180.0,44.4,0.51,-0.8167,96.68,-60.2,-95.89,99.6,,,,,,,,,,,,
+C: Flash Crash 15%,,,,,,,,,,15%,2.185,6.87,13.73,41.19,10.44,588.07,895.64,True,,,
+C: Flash Crash 20%,,,,,,,,,,20%,2.185,9.15,18.31,54.92,13.91,450.76,860.86,True,,,
+C: Flash Crash 30%,,,,,,,,,,30%,2.185,13.73,27.46,82.39,20.87,176.14,791.29,False,,,
+D: Outage 30min BTC 4H,,,,,,,,,,,,,,,,,,,0.844,1.689,
+D: Outage 30min ETH 1H,,,,,,,,,,,,,,,,,,,1.202,2.404,
+D: Outage 30min ETH 4H,,,,,,,,,,,,,,,,,,,1.16,2.32,
+E: WebSocket 15min BTC 4H,,,,,,,,,,,,,,,,,,,0.597,1.194,
+E: WebSocket 15min ETH 1H,,,,,,,,,,,,,,,,,,,0.85,1.7,
+E: WebSocket 15min ETH 4H,,,,,,,,,,,,,,,,,,,0.82,1.641,
+E: WebSocket 30min BTC 4H,,,,,,,,,,,,,,,,,,,0.844,1.689,
+E: WebSocket 30min ETH 1H,,,,,,,,,,,,,,,,,,,1.202,2.404,
+E: WebSocket 30min ETH 4H,,,,,,,,,,,,,,,,,,,1.16,2.32,
+E: WebSocket 60min BTC 4H,,,,,,,,,,,,,,,,,,,1.194,2.388,
+E: WebSocket 60min ETH 1H,,,,,,,,,,,,,,,,,,,1.7,3.4,
+E: WebSocket 60min ETH 4H,,,,,,,,,,,,,,,,,,,1.641,3.282,
+F: Funding 2x,F: Funding 2x,180.0,,1.364,0.2332,28.08,22.04,99.43,,,,,,,,,,,,,2.0
+F: Funding 5x,F: Funding 5x,180.0,,1.291,0.194,27.65,17.37,74.2,,,,,,,,,,,,,5.0
+F: Funding 10x,F: Funding 10x,180.0,,1.165,0.1288,28.59,9.82,38.35,,,,,,,,,,,,,10.0

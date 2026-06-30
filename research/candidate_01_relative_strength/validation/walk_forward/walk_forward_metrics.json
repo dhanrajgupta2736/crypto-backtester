@@ -1,0 +1,65 @@
+{
+  "parameters": {
+    "lookback_window": 100,
+    "portfolio_size_k": 3,
+    "rebalance_frequency_r": 4
+  },
+  "folds": {
+    "Selection": {
+      "Fold Name": "Selection",
+      "CAGR": 550.3955465453631,
+      "Sharpe Ratio": 2.6102894065841586,
+      "Profit Factor": 1.890605638893502,
+      "Max Drawdown": 62.789718561451494,
+      "Trade Count": 1451,
+      "Win Rate": 62.026188835286014,
+      "Expectancy (USD)": 13.488370181604939,
+      "Avg Holding Period": 158.85596140583334,
+      "Portfolio Turnover": 128.313232148656,
+      "Fee %": 2.906586443978535,
+      "Net return %": 1657.81928675468
+    },
+    "Holdout_1": {
+      "Fold Name": "Holdout_1",
+      "CAGR": 75.29349590109832,
+      "Sharpe Ratio": 1.077335985947548,
+      "Profit Factor": 1.218039710171563,
+      "Max Drawdown": 53.027466805476834,
+      "Trade Count": 935,
+      "Win Rate": 62.45989304812834,
+      "Expectancy (USD)": 9.304918311749214,
+      "Avg Holding Period": 137.0481283422222,
+      "Portfolio Turnover": 87.93934212444009,
+      "Fee %": 9.904785208381297,
+      "Net return %": 74.85786643017295
+    },
+    "Holdout_2": {
+      "Fold Name": "Holdout_2",
+      "CAGR": 195.42652902623394,
+      "Sharpe Ratio": 1.689857793192211,
+      "Profit Factor": 1.6646360999749947,
+      "Max Drawdown": 34.20304565092716,
+      "Trade Count": 399,
+      "Win Rate": 65.16290726817043,
+      "Expectancy (USD)": 10.15831715694821,
+      "Avg Holding Period": 149.88471177944444,
+      "Portfolio Turnover": 32.56953593066358,
+      "Fee %": 4.239479520294906,
+      "Net return %": 64.97258648294883
+    }
+  },
+  "aggregate": {
+    "Fold Name": "AGGREGATE / MEAN",
+    "CAGR": 273.7051904908985,
+    "Sharpe Ratio": 1.792494395241306,
+    "Profit Factor": 1.5910938163466863,
+    "Max Drawdown": 50.00674367261849,
+    "Trade Count": 2785,
+    "Win Rate": 63.216329717194924,
+    "Expectancy (USD)": 10.983868550100787,
+    "Avg Holding Period": 148.59626717583333,
+    "Portfolio Turnover": 82.94070340125323,
+    "Fee %": 5.683617057551579,
+    "Net return %": 599.2165798892672
+  }
+}

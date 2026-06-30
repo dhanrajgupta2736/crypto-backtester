@@ -1,0 +1,22 @@
+{
+  "parameters": {
+    "lookback_window": 100,
+    "portfolio_size_k": 3,
+    "rebalance_frequency_r": 4
+  },
+  "metrics": {
+    "CAGR": 195.42652902623394,
+    "Sharpe Ratio": 1.689857793192211,
+    "Profit Factor": 1.6646360999749947,
+    "Max Drawdown": 34.20304565092716,
+    "Trade Count": 399,
+    "Win Rate": 65.16290726817043,
+    "Expectancy (USD)": 10.15831715694821,
+    "Avg Holding Period": 149.88471177944444,
+    "Portfolio Turnover": 32.56953593066358,
+    "Fee %": 4.239479520294906,
+    "Net Return %": 64.97258648294883
+  },
+  "stage": "Stage 5 \u2014 Final Holdout",
+  "verdict": "PASS"
+}

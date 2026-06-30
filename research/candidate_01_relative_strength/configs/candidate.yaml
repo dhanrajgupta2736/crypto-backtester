@@ -1,0 +1,83 @@
+# Candidate C001 (Relative Strength) Configuration
+
+candidate:
+  metadata:
+    id: "C001"
+    name: "Relative Strength"
+    version: "v0.1"
+    research_version: "v1.0"
+    framework_version: "QRP Framework v2.0"
+    author: "Quant Team"
+    description: "Raw percentage return cross-sectional momentum ranking. Holds Top 3 ranked assets equally weighted on a 1H timeframe, rebalanced every candle."
+
+  plugin:
+    module_path: "research/candidate_01_relative_strength/code/strategy_plugin.py"
+    class_name: "StrategyPlugin"
+
+  universe:
+    asset_class: "crypto"
+    symbols:
+      - "AAVE"
+      - "ADA"
+      - "AVAX"
+      - "BNB"
+      - "BTC"
+      - "DOGE"
+      - "DOT"
+      - "ENA"
+      - "ETH"
+      - "HBAR"
+      - "HYPE"
+      - "INJ"
+      - "LINK"
+      - "LTC"
+      - "NEAR"
+      - "ONDO"
+      - "RENDER"
+      - "SOL"
+      - "SUI"
+      - "TAO"
+      - "TRX"
+      - "UNI"
+      - "WLD"
+      - "XRP"
+      - "ZEC"
+
+  timeframes:
+    - "1H"
+
+  portfolio:
+    max_active_positions: 3
+    capital_allocation: "EQUAL"
+    trading_direction: "LONG_ONLY"
+
+  rebalance:
+    frequency_bars: 1
+    trigger_type: "SCHEDULED"
+
+  exits:
+    rank_decay_exit: true
+    rank_decay_threshold: 3
+    stop_loss:
+      type: "NONE"
+    take_profit:
+      type: "NONE"
+    time_exit:
+      enabled: false
+
+  validation:
+    min_trades:
+      "1H": 120
+    performance_gates:
+      min_profit_factor: 1.15
+      min_expectancy_r: 0.1
+      require_positive_return: true
+
+  logging:
+    segregate_files: true
+    verbose: false
+
+  outputs:
+    save_trades_csv: true
+    save_equity_curve_csv: true
+    save_plots: true

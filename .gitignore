@@ -1,0 +1,63 @@
+# =====================================================
+# QRP - Quantitative Research Platform
+# =====================================================
+
+# ---------- Python ----------
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+
+# ---------- Secrets ----------
+.env
+.env.*
+*.pem
+*.key
+
+# ---------- IDE ----------
+.vscode/
+.idea/
+
+# ---------- Operating System ----------
+.DS_Store
+Thumbs.db
+
+# ---------- Logs ----------
+logs/
+*.log
+
+# ---------- Generated Results ----------
+outputs/
+results/
+backtest_results_6m/
+results - Copy/
+
+research/**/outputs/
+research/**/logs/
+research/**/figures/
+research/**/archive/
+
+# ---------- Runtime ----------
+checkpoint.json
+dashboard_state.json
+engine_state.json
+
+# ---------- Temporary ----------
+*.tmp
+*.bak
+
+# ---------- Archives ----------
+*.zip
+*.tar.gz
+
+venv/
+__pycache__/
+data/
+outputs/
+results/
+logs/
+*.pem
+*.key
+.env
+.git_backup/

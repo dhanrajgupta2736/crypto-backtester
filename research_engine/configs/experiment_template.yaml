@@ -1,0 +1,38 @@
+# QRP Framework v2.0 Experiment Configuration Template
+
+experiment_sweep:
+  candidate_id: "C001"
+  timestamp: "2026-06-27T12:00:00Z"
+  
+  # Parameters defined here will generate a Cartesian product matrix of experiments.
+  # The engine maps each combination to a unique C{ID}-E{ID} run.
+  parameter_space:
+    lookback_window:
+      - 10
+      - 20
+      - 30
+      - 50
+      - 75
+      - 100
+      - 150
+      - 200
+    portfolio_size_k:
+      - 1
+      - 2
+      - 3
+      - 5
+    rebalance_frequency_r:
+      - 1
+      - 2
+      - 4
+    stop_loss_multiplier:
+      - 2.0
+      - 3.0
+      - 4.0
+    take_profit_multiplier:
+      - 2.0
+      - 3.0
+      - 999.0                         # 999 represents No Take Profit (run on rank decay only)
+    exit_rank_decay_threshold:
+      - 3
+      - 5

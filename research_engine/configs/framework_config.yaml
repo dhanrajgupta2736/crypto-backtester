@@ -1,0 +1,42 @@
+# QRP Framework v2.0 Central Framework Configuration
+
+engine:
+  name: "Universal Discovery Engine"
+  version: "2.0.0"
+  log_level: "INFO"                # Options: INFO, WARNING, ERROR, SUCCESS
+  max_workers: 4                   # CPU core limit for parallel sweeps
+  error_handling: "HALT"           # Options: CONTINUE (skip failed configs), HALT (stop sweep)
+
+execution:
+  initial_capital: 10000.0         # Baseline USD capital for metrics normalization
+  costs:
+    default_taker_fee: 0.00045     # 0.045% Taker cost rate
+    default_maker_fee: 0.00015     # 0.015% Maker cost rate
+    default_slippage: 0.0005       # 0.05% Taker execution slippage penalty
+  leverage:
+    default_max_leverage: 5        # Max isolated margin leverage cap
+
+paths:
+  historical_data_dir: "./data"
+  outputs_dir: "./research_engine/outputs"
+  archives_dir: "./research_engine/archives"
+  registry_db_path: "./research_engine/outputs/experiment_registry.db"
+  dashboard_state_path: "./research_engine/outputs/dashboard_state.json"
+
+adapters:
+  supported_asset_classes:
+    - name: "crypto"
+      file_extension: ".csv"
+      timeframe_column: "timestamp"
+    - name: "equity"
+      file_extension: ".csv"
+      timeframe_column: "date"
+    - name: "commodity"
+      file_extension: ".csv"
+      timeframe_column: "timestamp"
+
+system:
+  max_workers: auto
+  default_workers: 2
+  worker_sleep_ms: 10
+

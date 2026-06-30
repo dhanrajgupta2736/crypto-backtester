@@ -1,0 +1,69 @@
+# QRP Framework v2.0 Candidate Configuration Template
+
+candidate:
+  metadata:
+    id: "C001"                         # Numeric candidate identifier
+    name: "Strategy Name"
+    version: "1.0.0"
+    research_version: "v1.0"
+    author: "Quant Team"
+    description: "Brief summary of the core hypothesis and strategy objective."
+
+  plugin:
+    module_path: "research/candidate_01_relative_strength/code/strategy_plugin.py"
+    class_name: "StrategyPlugin"
+
+  universe:
+    asset_class: "crypto"              # Options: crypto, equity, commodity
+    symbols:
+      - "BTC"
+      - "ETH"
+      - "SOL"
+
+  timeframes:
+    - "15m"
+    - "1H"
+    - "4H"
+
+  portfolio:
+    max_active_positions: 3            # K slots
+    capital_allocation: "EQUAL"        # Options: EQUAL, RISK_PARITY (future)
+    trading_direction: "LONG_ONLY"     # Options: LONG_ONLY, SHORT_ONLY, LONG_SHORT
+
+  rebalance:
+    frequency_bars: 1                  # R bars: rebalance interval (e.g. 1 = every bar)
+    trigger_type: "SCHEDULED"          # Options: SCHEDULED, THRESHOLD_DISPERSION
+
+  exits:
+    rank_decay_exit: true
+    rank_decay_threshold: 3            # Exit position if relative rank drops below this
+    stop_loss:
+      type: "ATR_MULTIPLE"             # Options: ATR_MULTIPLE, PERCENTAGE, NONE
+      period: 10
+      multiplier: 3.0
+    take_profit:
+      type: "ATR_MULTIPLE"             # Options: ATR_MULTIPLE, PERCENTAGE, NONE
+      period: 10
+      multiplier: 3.0
+    time_exit:
+      enabled: false
+      max_hold_bars: 48                # Force close position after N bars
+
+  validation:
+    min_trades:
+      "15m": 225
+      "1H": 120
+      "4H": 50
+    performance_gates:
+      min_profit_factor: 1.15
+      min_expectancy_r: 0.1
+      require_positive_return: true
+
+  logging:
+    segregate_files: true
+    verbose: false
+
+  outputs:
+    save_trades_csv: true
+    save_equity_curve_csv: true
+    save_plots: true

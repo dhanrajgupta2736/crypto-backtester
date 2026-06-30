@@ -1,0 +1,33 @@
+================================================================================
+  PHASE 15A VOLATILITY EXPANSION SCAN SUMMARY
+================================================================================
+Best PF Result:         BTC 15m (VE_2_KELTNER_SQUEEZE, RR=1.0) | Trades: 1, PF: 999.9, Sharpe: 0.0, WR: 100.0%, Expectancy: 0.0117, Net Return: 0.03%
+Best Sharpe Result:     ETH 1H (VE_3_ATR_EXPANSION, RR=1.5) | Trades: 5, PF: 0.91, Sharpe: 6.81, WR: 60.0%, Expectancy: 0.414, Net Return: -2.46%
+Best Expectancy Result: BTC 15m (VE_2_KELTNER_SQUEEZE, RR=3.0) | Trades: 1, PF: 999.9, Sharpe: 0.0, WR: 100.0%, Expectancy: 1.995, Net Return: 5.73%
+
+--------------------------------------------------------------------------------
+  BEST RESULT PER STRATEGY MODE
+--------------------------------------------------------------------------------
+Mode VE_1_BB_SQUEEZE     : BNB 15m (VE_1_BB_SQUEEZE, RR=2.0) | Trades: 6, PF: 1.98, Sharpe: 4.1, WR: 66.67%, Expectancy: 0.7155, Net Return: 9.74%
+Mode VE_2_KELTNER_SQUEEZE: BTC 15m (VE_2_KELTNER_SQUEEZE, RR=1.0) | Trades: 1, PF: 999.9, Sharpe: 0.0, WR: 100.0%, Expectancy: 0.0117, Net Return: 0.03%
+Mode VE_3_ATR_EXPANSION  : BTC 4H (VE_3_ATR_EXPANSION, RR=1.0) | Trades: 36, PF: 2.64, Sharpe: 1.33, WR: 69.44%, Expectancy: 0.3778, Net Return: 129.43%
+
+--------------------------------------------------------------------------------
+  BEST RESULT PER TIMEFRAME
+--------------------------------------------------------------------------------
+TF 15m     : BTC 15m (VE_2_KELTNER_SQUEEZE, RR=1.0) | Trades: 1, PF: 999.9, Sharpe: 0.0, WR: 100.0%, Expectancy: 0.0117, Net Return: 0.03%
+TF 1H      : ETH 1H (VE_2_KELTNER_SQUEEZE, RR=1.0) | Trades: 1, PF: 999.9, Sharpe: 0.0, WR: 100.0%, Expectancy: 0.5151, Net Return: 1.72%
+TF 4H      : BTC 4H (VE_3_ATR_EXPANSION, RR=1.0) | Trades: 36, PF: 2.64, Sharpe: 1.33, WR: 69.44%, Expectancy: 0.3778, Net Return: 129.43%
+
+--------------------------------------------------------------------------------
+  BEST RESULT PER COIN
+--------------------------------------------------------------------------------
+Coin BTC     : BTC 15m (VE_2_KELTNER_SQUEEZE, RR=1.0) | Trades: 1, PF: 999.9, Sharpe: 0.0, WR: 100.0%, Expectancy: 0.0117, Net Return: 0.03%
+Coin ETH     : ETH 1H (VE_2_KELTNER_SQUEEZE, RR=1.0) | Trades: 1, PF: 999.9, Sharpe: 0.0, WR: 100.0%, Expectancy: 0.5151, Net Return: 1.72%
+Coin SOL     : SOL 4H (VE_3_ATR_EXPANSION, RR=2.0) | Trades: 18, PF: 1.78, Sharpe: 0.58, WR: 50.0%, Expectancy: 0.4336, Net Return: 73.15%
+Coin BNB     : BNB 15m (VE_1_BB_SQUEEZE, RR=2.0) | Trades: 6, PF: 1.98, Sharpe: 4.1, WR: 66.67%, Expectancy: 0.7155, Net Return: 9.74%
+Coin LINK    : LINK 4H (VE_3_ATR_EXPANSION, RR=3.0) | Trades: 18, PF: 2.34, Sharpe: 0.86, WR: 50.0%, Expectancy: 0.6802, Net Return: 113.64%
+Coin AVAX    : AVAX 4H (VE_3_ATR_EXPANSION, RR=1.5) | Trades: 20, PF: 1.68, Sharpe: 0.63, WR: 60.0%, Expectancy: 0.3133, Net Return: 59.4%
+Coin XRP     : XRP 4H (VE_3_ATR_EXPANSION, RR=2.0) | Trades: 35, PF: 1.47, Sharpe: 0.26, WR: 45.71%, Expectancy: 0.3056, Net Return: 100.06%
+
+================================================================================

@@ -1,0 +1,13 @@
+# Candidate C001 (Relative Strength) Experiment Sweep Configuration
+
+experiment_sweep:
+  candidate_id: "C001"
+  timestamp: "2026-06-27T12:44:00Z"
+  
+  parameter_space:
+    lookback_window:
+      - 50
+    portfolio_size_k:
+      - 3
+    rebalance_frequency_r:
+      - 1

@@ -1,0 +1,48 @@
+{
+  "experiment_id": "C001-E0001",
+  "candidate_id": "Candidate 01",
+  "framework_version": "QRP Framework v2.0",
+  "candidate_version": "v0.1",
+  "git_commit": "9e48b2a59b09b9cb6a927d0c8c5a627959e79140",
+  "timestamp": "2026-06-27T07:43:04.162194Z",
+  "timeframe": "1H",
+  "universe": {
+    "asset_class": "crypto",
+    "symbols": [
+      "AAVE",
+      "ADA",
+      "AVAX",
+      "BNB",
+      "BTC",
+      "DOGE",
+      "DOT",
+      "ENA",
+      "ETH",
+      "HBAR",
+      "HYPE",
+      "INJ",
+      "LINK",
+      "LTC",
+      "NEAR",
+      "ONDO",
+      "RENDER",
+      "SOL",
+      "SUI",
+      "TAO",
+      "TRX",
+      "UNI",
+      "WLD",
+      "XRP",
+      "ZEC"
+    ]
+  },
+  "parameters": {
+    "lookback_window": 50,
+    "portfolio_size_k": 3,
+    "rebalance_frequency_r": 1
+  },
+  "termination_status": "COMPLETED",
+  "termination_reason": "N/A",
+  "framework_safety_version": "QRP Framework v2.0.1",
+  "regression_test_version": "v1.0.0"
+}

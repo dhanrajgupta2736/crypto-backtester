@@ -1,0 +1,5 @@
+strategy,timeframe,portfolios,trades,wins,losses,win_rate_pct,initial_cash,final_balance,profit_usd,return_pct,max_drawdown_pct
+ATR Volume Breakout,1h,6,31,18,13,58.06,6000.0,6668.52,668.52,11.14,8.2
+Liquidity Sweep 15m/1h,15m,6,0,0,0,0.0,6000.0,6000.0,0.0,0.0,0.0
+Liquidity Sweep 1h/4h,1h,6,0,0,0,0.0,6000.0,6000.0,0.0,0.0,0.0
+VWAP Momentum Scalp,15m,6,150,67,83,44.67,6000.0,5767.87,-232.13,-3.87,9.4

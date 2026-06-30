@@ -1,0 +1,4 @@
+period,trades,win_rate,pf,sharpe,drawdown,expectancy,net_return
+Selection,167,42.51,1.24,,100.0,0.168,174.13
+Holdout_1,231,48.48,1.37,1.49,61.12,0.2367,453.01
+Holdout_2,220,51.36,1.4,1.62,82.52,0.2818,334.11

@@ -1,0 +1,4 @@
+period,trades,win_rate,pf,sharpe,expectancy,cagr,max_drawdown,ulcer_index,risk_of_ruin,avg_concurrent,max_concurrent,net_return
+Selection,96,39.58,1.11,0.44,0.0978,6.81,28.22,11.6147,0.0055,0.7,3,14.08
+Holdout_1,48,50.0,1.49,0.99,0.3685,36.11,17.64,6.4798,0.0,0.65,2,36.11
+Holdout_2,36,50.0,1.88,1.81,0.4789,88.54,9.51,4.356,0.0,0.83,3,34.3

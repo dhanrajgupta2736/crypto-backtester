@@ -1,0 +1,25 @@
+coin,timeframe,strategy,trades,wins,losses,win_rate,max_drawdown,total_profit_on_1000,final_balance,return_on_1000_pct
+ADAUSDT,15m,Liquidity Sweep 15m/1h,0,0,0,0.0,0.0,0.0,1000.0,0.0
+ADAUSDT,15m,VWAP Momentum Scalp,24,9,15,37.5,12.96,-68.94,931.06,-6.89
+ADAUSDT,1h,ATR Volume Breakout,5,3,2,60.0,7.36,137.28,1137.28,13.73
+ADAUSDT,1h,Liquidity Sweep 1h/4h,0,0,0,0.0,0.0,0.0,1000.0,0.0
+BNBUSDT,15m,Liquidity Sweep 15m/1h,0,0,0,0.0,0.0,0.0,1000.0,0.0
+BNBUSDT,15m,VWAP Momentum Scalp,23,11,12,47.83,10.21,-17.37,982.63,-1.74
+BNBUSDT,1h,ATR Volume Breakout,8,5,3,62.5,4.86,232.54,1232.54,23.25
+BNBUSDT,1h,Liquidity Sweep 1h/4h,0,0,0,0.0,0.0,0.0,1000.0,0.0
+BTCUSDT,15m,Liquidity Sweep 15m/1h,0,0,0,0.0,0.0,0.0,1000.0,0.0
+BTCUSDT,15m,VWAP Momentum Scalp,21,11,10,52.38,5.25,2.26,1002.26,0.23
+BTCUSDT,1h,ATR Volume Breakout,6,3,3,50.0,6.57,61.65,1061.65,6.17
+BTCUSDT,1h,Liquidity Sweep 1h/4h,0,0,0,0.0,0.0,0.0,1000.0,0.0
+ETHUSDT,15m,Liquidity Sweep 15m/1h,0,0,0,0.0,0.0,0.0,1000.0,0.0
+ETHUSDT,15m,VWAP Momentum Scalp,33,13,20,39.39,9.67,-57.95,942.05,-5.79
+ETHUSDT,1h,ATR Volume Breakout,5,1,4,20.0,15.94,-143.4,856.6,-14.34
+ETHUSDT,1h,Liquidity Sweep 1h/4h,0,0,0,0.0,0.0,0.0,1000.0,0.0
+SOLUSDT,15m,Liquidity Sweep 15m/1h,0,0,0,0.0,0.0,0.0,1000.0,0.0
+SOLUSDT,15m,VWAP Momentum Scalp,26,12,14,46.15,11.26,-89.85,910.15,-8.99
+SOLUSDT,1h,ATR Volume Breakout,3,2,1,66.67,7.49,184.19,1184.19,18.42
+SOLUSDT,1h,Liquidity Sweep 1h/4h,0,0,0,0.0,0.0,0.0,1000.0,0.0
+XRPUSDT,15m,Liquidity Sweep 15m/1h,0,0,0,0.0,0.0,0.0,1000.0,0.0
+XRPUSDT,15m,VWAP Momentum Scalp,23,11,12,47.83,7.06,-0.28,999.72,-0.03
+XRPUSDT,1h,ATR Volume Breakout,4,4,0,100.0,6.95,196.26,1196.26,19.63
+XRPUSDT,1h,Liquidity Sweep 1h/4h,0,0,0,0.0,0.0,0.0,1000.0,0.0
