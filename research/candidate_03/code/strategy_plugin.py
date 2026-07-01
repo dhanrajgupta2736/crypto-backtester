@@ -271,21 +271,26 @@ def _run_sorb_backtest_single_asset(
                 if close_at_or <= ema_val:
                     continue  # Price below EMA — skip session
 
-            # Scan post-range bars for breakout entry (signal = close above trigger)
+            # Convert required columns to numpy for extremely fast scanning and simulation
+            post_close = post_range_bars["close"].to_numpy()
+            post_open = post_range_bars["open"].to_numpy()
+            post_high = post_range_bars["high"].to_numpy()
+            post_low = post_range_bars["low"].to_numpy()
+            post_times = post_range_bars.index.to_numpy()
+
             entry_price = None
             entry_bar_idx = None
             entry_time = None
 
-            for bi in range(len(post_range_bars) - 1):
-                bar = post_range_bars.iloc[bi]
-                # Signal fires when close of bar exceeds entry trigger
-                if bar["close"] > entry_trigger:
-                    # Entry at open of NEXT bar (closed-candle signal, no look-ahead)
-                    entry_bar = post_range_bars.iloc[bi + 1]
-                    entry_price = entry_bar["open"] * (1.0 + SLIPPAGE)
-                    entry_bar_idx = bi + 1
-                    entry_time = post_range_bars.index[bi + 1]
-                    break
+            # Scan post-range bars for breakout entry (signal = close exceeds entry trigger)
+            trigger_hits = np.where(post_close > entry_trigger)[0]
+            if len(trigger_hits) > 0:
+                hit_idx = trigger_hits[0]
+                # Entry is at the open of the next bar (hit_idx + 1)
+                if hit_idx + 1 < len(post_close):
+                    entry_price = post_open[hit_idx + 1] * (1.0 + SLIPPAGE)
+                    entry_bar_idx = hit_idx + 1
+                    entry_time = post_times[hit_idx + 1]
 
             if entry_price is None:
                 continue  # No breakout fired this session
@@ -293,7 +298,8 @@ def _run_sorb_backtest_single_asset(
             active_session_keys.add(session_key)
 
             # Determine initial stop loss
-            atr_at_entry = atr_series.get(entry_time, np.nan)
+            ts_entry_time = pd.Timestamp(entry_time)
+            atr_at_entry = atr_series.get(ts_entry_time, np.nan)
             if np.isnan(atr_at_entry) or atr_at_entry <= 0:
                 atr_at_entry = (entry_price * 0.015)  # fallback 1.5% of price
 
@@ -309,30 +315,26 @@ def _run_sorb_backtest_single_asset(
             # Determine take-profit (for fixed_rr and atr_trail modes)
             if exit_mode == "fixed_rr":
                 take_profit = entry_price + (fixed_rr * initial_risk)
-            elif exit_mode == "atr_trail":
-                take_profit = None  # trailing — evaluated bar by bar
-            elif exit_mode == "swing_trail":
-                take_profit = None  # trailing swing low
-            else:  # session_close
+            else:
                 take_profit = None
 
             # Simulate from entry bar to session close
-            holding_bars = post_range_bars.iloc[entry_bar_idx:]
             exit_price = None
             exit_reason = "SESSION_CLOSE"
-            exit_time = None
+            exit_time = entry_time
 
             # ATR trail state
             atr_trail_stop = stop_price  # starts at initial stop
             # Swing trail state: last confirmed swing low price
             last_swing_low = stop_price
 
-            for hi, (bar_ts, bar) in enumerate(holding_bars.iterrows()):
-                bar_low = bar["low"]
-                bar_high = bar["high"]
-                bar_close = bar["close"]
+            for hi in range(entry_bar_idx, len(post_close)):
+                bar_ts = post_times[hi]
+                bar_low = post_low[hi]
+                bar_high = post_high[hi]
+                bar_close = post_close[hi]
 
-                # --- Stop hit check (uses bar low) ---
+                # --- Stop hit check ---
                 current_stop = atr_trail_stop if exit_mode == "atr_trail" else (
                     last_swing_low if exit_mode == "swing_trail" else stop_price
                 )
@@ -342,7 +344,7 @@ def _run_sorb_backtest_single_asset(
                     exit_time = bar_ts
                     break
 
-                # --- Take profit check (fixed_rr and atr_trail target) ---
+                # --- Take profit check ---
                 if exit_mode == "fixed_rr" and take_profit is not None:
                     if bar_high >= take_profit:
                         exit_price = take_profit * (1.0 - SLIPPAGE)
@@ -350,39 +352,30 @@ def _run_sorb_backtest_single_asset(
                         exit_time = bar_ts
                         break
 
-                # --- ATR Trail: ratchet stop upward as price advances ---
+                # --- ATR Trail ---
                 if exit_mode == "atr_trail":
-                    atr_now = atr_series.get(bar_ts, atr_at_entry)
+                    ts_val = pd.Timestamp(bar_ts)
+                    atr_now = atr_series.get(ts_val, atr_at_entry)
                     new_trail = bar_close - (atr_stop_multiplier * atr_now)
                     if new_trail > atr_trail_stop:
                         atr_trail_stop = new_trail
 
-                # --- Swing Trail: update to most recent confirmed swing low ---
+                # --- Swing Trail ---
                 if exit_mode == "swing_trail":
-                    # A swing low is confirmed when the bar is below both neighbours
-                    if hi >= 1:
-                        prev_bar = holding_bars.iloc[hi - 1]
-                        if bar_low < prev_bar["low"]:
-                            # Tentative: it dips lower. Wait for next bar for confirmation
-                            pass
-                        if hi >= 2:
-                            prev2_bar = holding_bars.iloc[hi - 2]
-                            if prev2_bar["low"] < holding_bars.iloc[hi - 1]["low"] and \
-                               prev2_bar["low"] < bar_low:
-                                # prev2 bar is a confirmed swing low
-                                candidate_stop = prev2_bar["low"]
-                                if candidate_stop > last_swing_low:
-                                    last_swing_low = candidate_stop
+                    if hi >= entry_bar_idx + 2:
+                        if post_low[hi - 2] < post_low[hi - 1] and post_low[hi - 2] < bar_low:
+                            candidate_stop = post_low[hi - 2]
+                            if candidate_stop > last_swing_low:
+                                last_swing_low = candidate_stop
 
             # If loop completes without exit, exit at session close
-            if exit_price is None and not holding_bars.empty:
-                last_bar = holding_bars.iloc[-1]
-                exit_price = last_bar["close"] * (1.0 - SLIPPAGE)
-                exit_reason = "SESSION_CLOSE"
-                exit_time = holding_bars.index[-1]
-
             if exit_price is None:
-                continue
+                exit_price = post_close[-1] * (1.0 - SLIPPAGE)
+                exit_reason = "SESSION_CLOSE"
+                exit_time = post_times[-1]
+
+            exit_time = pd.Timestamp(exit_time)
+
 
             # --- PnL Calculation ---
             # Assume 1 unit of notional per trade (normalised for metrics)
