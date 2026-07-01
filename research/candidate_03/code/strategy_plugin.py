@@ -68,6 +68,11 @@ def _compute_atr(df: pd.DataFrame, period: int = 14) -> pd.Series:
 # Signal generation helpers
 # ---------------------------------------------------------------------------
 
+_or_cache: dict = {}
+_atr_cache: dict = {}
+_ema_cache: dict = {}
+
+
 def _session_hours_for(session: str) -> List[int]:
     """Return UTC open hours for the specified session string."""
     if session == "london":
@@ -95,6 +100,10 @@ def _compute_open_range(
     Returns a DataFrame indexed by date with columns:
         or_high, or_low, or_complete_time (UTC timestamp when range is confirmed)
     """
+    cache_key = (id(df), timeframe, session_open_hour, open_range_minutes)
+    if cache_key in _or_cache:
+        return _or_cache[cache_key]
+
     # Determine how many bars form the open range
     if timeframe == "15m":
         bars_in_range = open_range_minutes // 15
@@ -141,9 +150,13 @@ def _compute_open_range(
         )
 
     if not rows:
-        return pd.DataFrame(columns=["date", "session_open_hour", "or_high", "or_low", "or_complete_time"])
+        res = pd.DataFrame(columns=["date", "session_open_hour", "or_high", "or_low", "or_complete_time"])
+        _or_cache[cache_key] = res
+        return res
 
-    return pd.DataFrame(rows)
+    res = pd.DataFrame(rows)
+    _or_cache[cache_key] = res
+    return res
 
 
 def _compute_swing_lows(df: pd.DataFrame, window: int = 3) -> pd.Series:
@@ -185,11 +198,22 @@ def _run_sorb_backtest_single_asset(
     if df.empty or len(df) < 50:
         return []
 
-    # Pre-compute ATR and EMA columns (no look-ahead)
-    atr_series = _compute_atr(df, period=atr_period)
-    # Guard: trend_ema_period may be None when trend_filter='off'; default to 50
+    # Pre-compute ATR and EMA columns with caching to avoid IPC and computation overhead
+    global _atr_cache, _ema_cache
+    atr_key = (id(df), atr_period)
+    if atr_key in _atr_cache:
+        atr_series = _atr_cache[atr_key]
+    else:
+        atr_series = _compute_atr(df, period=atr_period)
+        _atr_cache[atr_key] = atr_series
+
     _ema_span = trend_ema_period if isinstance(trend_ema_period, int) and trend_ema_period > 0 else 50
-    ema_series = df["close"].ewm(span=_ema_span, adjust=False).mean()
+    ema_key = (id(df), _ema_span)
+    if ema_key in _ema_cache:
+        ema_series = _ema_cache[ema_key]
+    else:
+        ema_series = df["close"].ewm(span=_ema_span, adjust=False).mean()
+        _ema_cache[ema_key] = ema_series
 
     session_hours = _session_hours_for(session)
     trades = []

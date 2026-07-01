@@ -718,7 +718,7 @@ def run_sweep(workers: int = 7, dry_run: bool = False) -> None:
                 print(
                     f"  Progress: {done_count}/{total_experiments} ({pct:.1f}%) | "
                     f"ETA {eta_str} | Best Sharpe={best_sharpe:.3f} | "
-                    f"Best PF={best_pf:.3f} | {result['experiment_id']} → {result['verdict']}"
+                    f"Best PF={best_pf:.3f} | {result['experiment_id']} -> {result['verdict']}"
                 )
                 _update_dashboard(
                     dashboard,
