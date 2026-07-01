@@ -215,6 +215,12 @@ def _run_sorb_backtest_single_asset(
         ema_series = df["close"].ewm(span=_ema_span, adjust=False).mean()
         _ema_cache[ema_key] = ema_series
 
+    df_close = df["close"].to_numpy()
+    df_open = df["open"].to_numpy()
+    df_high = df["high"].to_numpy()
+    df_low = df["low"].to_numpy()
+    df_times = df.index.to_numpy()
+
     session_hours = _session_hours_for(session)
     trades = []
 
@@ -229,34 +235,61 @@ def _run_sorb_backtest_single_asset(
 
         close_hour = _session_close_hour_for(open_hour)
 
-        for _, or_row in or_table.iterrows():
-            date = or_row["date"]
-            or_high = or_row["or_high"]
-            or_low = or_row["or_low"]
-            or_complete_time = or_row["or_complete_time"]
+        # Convert columns to numpy arrays for super fast iteration
+        or_highs = or_table["or_high"].to_numpy()
+        or_lows = or_table["or_low"].to_numpy()
+        or_dates = or_table["date"].to_numpy()
+        or_complete_times = or_table["or_complete_time"].to_numpy()
+
+        for idx in range(len(or_table)):
+            date = or_dates[idx]
+            or_high = or_highs[idx]
+            or_low = or_lows[idx]
+            or_complete_time = or_complete_times[idx]
 
             session_key = (date, open_hour)
             if session_key in active_session_keys:
                 continue  # Already traded this session
 
-            # Bars available after range is complete, within session window
+            # Ensure target timezone matches df.index timezone
+            tz = df.index.tz
+            ts_complete = pd.Timestamp(or_complete_time)
+            if ts_complete.tz != tz:
+                if tz is None:
+                    ts_complete = ts_complete.tz_localize(None)
+                else:
+                    if ts_complete.tz is None:
+                        ts_complete = ts_complete.tz_localize("UTC").tz_convert(tz)
+                    else:
+                        ts_complete = ts_complete.tz_convert(tz)
+
             session_window_end = pd.Timestamp(
-                year=or_complete_time.year,
-                month=or_complete_time.month,
-                day=or_complete_time.day,
+                year=ts_complete.year,
+                month=ts_complete.month,
+                day=ts_complete.day,
                 hour=close_hour,
-                tz="UTC",
+                tz=tz,
             )
 
-            post_range_bars = df.loc[or_complete_time + pd.Timedelta(seconds=1) : session_window_end]
+            # Find slice boundaries using DatetimeIndex.searchsorted
+            complete_idx = df.index.searchsorted(ts_complete)
+            end_idx = df.index.searchsorted(session_window_end, side="right")
 
-            if post_range_bars.empty:
+
+
+            if complete_idx + 1 >= end_idx:
                 continue
+
+            post_close = df_close[complete_idx + 1 : end_idx]
+            post_open = df_open[complete_idx + 1 : end_idx]
+            post_high = df_high[complete_idx + 1 : end_idx]
+            post_low = df_low[complete_idx + 1 : end_idx]
+            post_times = df_times[complete_idx + 1 : end_idx]
 
             # Breakout buffer: add ATR fraction to the range high
             buffer_value = 0.0
             if breakout_buffer_atr > 0.0:
-                atr_at_range_end = atr_series.get(or_complete_time, np.nan)
+                atr_at_range_end = atr_series.get(ts_complete, np.nan)
                 if not np.isnan(atr_at_range_end) and atr_at_range_end > 0:
                     buffer_value = breakout_buffer_atr * atr_at_range_end
 
@@ -264,19 +297,13 @@ def _run_sorb_backtest_single_asset(
 
             # Trend filter check at OR completion time
             if trend_filter != "off":
-                ema_val = ema_series.get(or_complete_time, np.nan)
-                close_at_or = df.loc[or_complete_time, "close"] if or_complete_time in df.index else np.nan
+                ema_val = ema_series.get(ts_complete, np.nan)
+                close_at_or = df_close[complete_idx] if complete_idx < len(df_close) else np.nan
                 if np.isnan(ema_val) or np.isnan(close_at_or):
                     continue
                 if close_at_or <= ema_val:
                     continue  # Price below EMA — skip session
 
-            # Convert required columns to numpy for extremely fast scanning and simulation
-            post_close = post_range_bars["close"].to_numpy()
-            post_open = post_range_bars["open"].to_numpy()
-            post_high = post_range_bars["high"].to_numpy()
-            post_low = post_range_bars["low"].to_numpy()
-            post_times = post_range_bars.index.to_numpy()
 
             entry_price = None
             entry_bar_idx = None
