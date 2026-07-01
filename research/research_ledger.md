@@ -44,10 +44,20 @@ This document serves as the institutional ledger tracking all research phases, d
 
 ## Candidate 02: Volatility Contraction Pattern (VCP)
 
-### Current Status
-* **Current Stage**: Stage 2 — Discovery Sweep
-* **Current Status**: `HARDWARE OPTIMIZATION APPLIED` (Optimized worker scaling, thermal sleeps, platform-independent priority, caching indicators, checkpoint/resume systems)
-* **Last Updated**: 2026-06-29
+### Current Status (Version 1)
+* **Current Stage**: Pareto Analysis
+* **Current Status**: `COMPLETED` (Completed Multi-Objective Pareto Analysis comparing V1, V2, and V3 configurations)
+* **Last Updated**: 2026-06-30
+
+### Current Status (Version 2)
+* **Current Stage**: Stage 2 — Discovery Sweep (V2)
+* **Current Status**: `ARCHIVED` (V2 Discovery sweep complete; winner was TF=4H, SW=7; archived in favor of V3)
+* **Last Updated**: 2026-06-30
+
+### Current Status (Version 3)
+* **Current Stage**: Stage 2 — Discovery Sweep (V3)
+* **Current Status**: `COMPLETED` (V3 Discovery sweep complete; winner is TF=4H, Waves=3)
+* **Last Updated**: 2026-06-30
 
 ---
 
@@ -151,3 +161,10 @@ This document serves as the institutional ledger tracking all research phases, d
 | 2026-06-27 | Candidate 01 | Stage 3: Walk-Forward | `READY_FOR_FINAL_HOLDOUT` | validation/walk_forward/walk_forward_results.csv, validation/walk_forward/walk_forward_equity.csv, validation/walk_forward/walk_forward_summary.md, validation/walk_forward/walk_forward_report.md | Validated configuration C001-E00077. The discovery edge survived Walk-Forward testing with out-of-sample Sharpe ratios of 1.08 (Holdout 1) and 1.69 (Holdout 2), and no evidence of overfitting. Drawdowns of 53-63% trigger a BORDERLINE classification. |
 | 2026-06-27 | Candidate 01 | Stages 5-9: Validation | `READY_FOR_PAPER_TRADING` | validation/final_validation/final_holdout_results.csv, validation/final_validation/event_simulation_report.md, validation/final_validation/monte_carlo_report.md, validation/final_validation/portfolio_correlation_report.md, validation/final_validation/production_readiness_report.md | Executed Stage 5 to 9 validation. Holdout Sharpe of 1.69, event-driven comparison proves fee/slippage expectancy, Monte Carlo shows ruin probability of 4.98%, daily correlation to production strategies is very low (<0.21), providing significant diversification benefits. Promoted to Paper Trading. |
 | 2026-06-29 | Candidate 02 | Stage 1: Spec | `UNDER_REVIEW` | `vcp_research_spec.md`, `objective_definition.md`, `parameter_space.md`, `candidate_variants.md` | Recommending V1 price-action swing contraction model with simple exits for discovery approval. |
+| 2026-06-30 | Candidate 02 | Stage 2: Discovery Sweep | `COMPLETED` | outputs/discovery_matrix_results.csv, outputs/ranked_candidates.csv, reports/candidate_summary.md, reports/discovery_analysis.md | Discovery matrix sweep completed successfully. READY_FOR_WALK_FORWARD_SELECTION. |
+| 2026-06-30 | Candidate 02 | Stage 2: Discovery Audit | `COMPLETED` | reports/discovery_audit.md | Completed statistical discovery audit. 58 pass, 1,032 borderline configurations. Recommended promotion to Walk-Forward out-of-sample testing. |
+| 2026-06-30 | Candidate 02 | Stage 3: Walk-Forward | `VALIDATION_FAILED` | walk_forward/walk_forward_results.csv, walk_forward/walk_forward_equity.csv, walk_forward/walk_forward_summary.md, walk_forward/walk_forward_report.md | Walk-forward validation failed for configuration C002-E04426 due to insufficient trade counts (<30) in Selection and Holdout 2. Strategy is rejected. |
+| 2026-06-30 | Candidate 02 V2 | Stage 2: Discovery Sweep | `ARCHIVED` | candidate_02_vcp_v2/outputs/discovery_matrix_results.csv, candidate_02_vcp_v2/outputs/ranked_candidates.csv, candidate_02_vcp_v2/reports/candidate_summary.md | Executed 6-experiment V2 parameter sweep varying swing window [3, 5, 7] on 1H/4H. Winner was 4H, SW=7 (V1 Baseline). Archived in favor of V3. |
+| 2026-06-30 | Candidate 02 V3 | Stage 2: Discovery Sweep | `COMPLETED` | candidate_02_vcp_v3/outputs/discovery_matrix_results.csv, candidate_02_vcp_v3/outputs/ranked_candidates.csv, candidate_02_vcp_v3/reports/candidate_summary.md | Executed 6-experiment V3 parameter sweep varying contraction waves [2, 3, "adaptive"] on 1H/4H. Winner is 4H, Waves=3 (control). Adaptive waves generated 288 trades with Sharpe 0.85. |
+| 2026-06-30 | Candidate 02 | Pareto Analysis | `COMPLETED` | candidate_02_vcp/reports/pareto_analysis.md | Conducted multi-objective Pareto Frontier analysis across V1, V2, and V3 sweeps. Proposed a revised V2 Quality Score to prevent Profit Factor distortion and reward trade density. |
+

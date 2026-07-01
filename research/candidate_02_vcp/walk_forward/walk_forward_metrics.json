@@ -1,0 +1,70 @@
+{
+  "parameters": {
+    "trend_gate": "HH_HL",
+    "swing_window": 7,
+    "contraction_waves": 3,
+    "max_final_contraction": 0.05,
+    "breakout": "Close_Above_Swing_High",
+    "risk_reward": "Swing_Trail",
+    "stop_buffer": 0.0,
+    "portfolio_size_k": 3
+  },
+  "folds": {
+    "Selection": {
+      "Fold Name": "Selection",
+      "CAGR": 7.5830965572816655,
+      "Sharpe Ratio": 0.7459718859184886,
+      "Profit Factor": 3.038142298476982,
+      "Max Drawdown": 6.24806006416311,
+      "Trade Count": 16,
+      "Win Rate": 18.75,
+      "Expectancy (USD)": -1.602928568656534,
+      "Avg Holding Period": 40.0,
+      "Portfolio Turnover": 3.7355897239004707,
+      "Fee %": 2.60877215629722,
+      "Net return %": 11.844907659058856
+    },
+    "Holdout_1": {
+      "Fold Name": "Holdout_1",
+      "CAGR": 47.7823603357562,
+      "Sharpe Ratio": 1.9268774536232167,
+      "Profit Factor": 30.2414731962436,
+      "Max Drawdown": 7.936880235202749,
+      "Trade Count": 54,
+      "Win Rate": 96.29629629629629,
+      "Expectancy (USD)": 6.731931687978817,
+      "Avg Holding Period": 83.55555555555556,
+      "Portfolio Turnover": 4.672433465982613,
+      "Fee %": 1.0484249196960427,
+      "Net return %": 47.624309500080635
+    },
+    "Holdout_2": {
+      "Fold Name": "Holdout_2",
+      "CAGR": 10.835620833443382,
+      "Sharpe Ratio": 1.1562970842696199,
+      "Profit Factor": 999.0,
+      "Max Drawdown": 7.512079496763597,
+      "Trade Count": 1,
+      "Win Rate": 100.0,
+      "Expectancy (USD)": 4.8833007812500115,
+      "Avg Holding Period": 188.0,
+      "Portfolio Turnover": 1.0097777667665724,
+      "Fee %": 1.8173076923076883,
+      "Net return %": 4.878666048503934
+    }
+  },
+  "aggregate": {
+    "Fold Name": "AGGREGATE / MEAN",
+    "CAGR": 22.06702590882708,
+    "Sharpe Ratio": 1.2763821412704417,
+    "Profit Factor": 344.0932051649068,
+    "Max Drawdown": 7.2323399320431525,
+    "Trade Count": 71,
+    "Win Rate": 71.6820987654321,
+    "Expectancy (USD)": 3.3374346335240985,
+    "Avg Holding Period": 103.85185185185185,
+    "Portfolio Turnover": 3.139266985549885,
+    "Fee %": 1.8248349227669838,
+    "Net return %": 21.449294402547807
+  }
+}

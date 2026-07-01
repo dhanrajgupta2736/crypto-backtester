@@ -1,0 +1,75 @@
+# Candidate C002 Version 3 (Adaptive Wave Hypothesis) Configuration
+
+candidate:
+  metadata:
+    id: "C002_V3"
+    name: "Volatility Contraction Pattern V3"
+    version: "v0.3"
+    research_version: "v3.0"
+    framework_version: "QRP Framework v2.0.1"
+    author: "Quant Team"
+    description: "Volatility Contraction Pattern (VCP) strategy V3 with adaptive wave counts."
+
+  plugin:
+    module_path: "research/candidate_02_vcp_v3/code/strategy_plugin.py"
+    class_name: "StrategyPlugin"
+
+  universe:
+    asset_class: "crypto"
+    symbols:
+      - "AAVE"
+      - "ADA"
+      - "AVAX"
+      - "BNB"
+      - "BTC"
+      - "DOGE"
+      - "DOT"
+      - "ENA"
+      - "ETH"
+      - "HBAR"
+      - "HYPE"
+      - "INJ"
+      - "LINK"
+      - "LTC"
+      - "NEAR"
+      - "ONDO"
+      - "RENDER"
+      - "SOL"
+      - "SUI"
+      - "TAO"
+      - "TRX"
+      - "UNI"
+      - "WLD"
+      - "XRP"
+      - "ZEC"
+
+  timeframes:
+    - "1H"
+    - "4H"
+
+  portfolio:
+    max_active_positions: 3
+    capital_allocation: "EQUAL"
+    trading_direction: "LONG_ONLY"
+
+  rebalance:
+    frequency_bars: 1
+    trigger_type: "SCHEDULED"
+
+  validation:
+    min_trades:
+      "1H": 120
+      "4H": 50
+    performance_gates:
+      min_profit_factor: 1.15
+      min_expectancy_r: 0.1
+      require_positive_return: true
+
+  logging:
+    segregate_files: true
+    verbose: false
+
+  outputs:
+    save_trades_csv: true
+    save_equity_curve_csv: true
+    save_plots: false
