@@ -251,29 +251,19 @@ def _run_sorb_backtest_single_asset(
             if session_key in active_session_keys:
                 continue  # Already traded this session
 
-            # Ensure target timezone matches df.index timezone
-            tz = df.index.tz
             ts_complete = pd.Timestamp(or_complete_time)
-            if ts_complete.tz != tz:
-                if tz is None:
-                    ts_complete = ts_complete.tz_localize(None)
-                else:
-                    if ts_complete.tz is None:
-                        ts_complete = ts_complete.tz_localize("UTC").tz_convert(tz)
-                    else:
-                        ts_complete = ts_complete.tz_convert(tz)
-
             session_window_end = pd.Timestamp(
                 year=ts_complete.year,
                 month=ts_complete.month,
                 day=ts_complete.day,
                 hour=close_hour,
-                tz=tz,
+                tz=df.index.tz,
             )
 
             # Find slice boundaries using DatetimeIndex.searchsorted
             complete_idx = df.index.searchsorted(ts_complete)
             end_idx = df.index.searchsorted(session_window_end, side="right")
+
 
 
 
