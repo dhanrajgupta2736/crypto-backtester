@@ -139,6 +139,17 @@ def _compute_open_range(
         or_low = range_bars["low"].min()
         or_complete_time = range_bars.index[-1]  # last bar of the open range
 
+        # pre-compute indices to cache
+        complete_idx = df.index.searchsorted(or_complete_time)
+        session_window_end = pd.Timestamp(
+            year=or_complete_time.year,
+            month=or_complete_time.month,
+            day=or_complete_time.day,
+            hour=session_open_hour + SESSION_DURATION_HOURS,
+            tz=df.index.tz,
+        )
+        end_idx = df.index.searchsorted(session_window_end, side="right")
+
         rows.append(
             {
                 "date": date.date(),
@@ -146,17 +157,20 @@ def _compute_open_range(
                 "or_high": or_high,
                 "or_low": or_low,
                 "or_complete_time": or_complete_time,
+                "complete_idx": complete_idx,
+                "end_idx": end_idx,
             }
         )
 
     if not rows:
-        res = pd.DataFrame(columns=["date", "session_open_hour", "or_high", "or_low", "or_complete_time"])
+        res = pd.DataFrame(columns=["date", "session_open_hour", "or_high", "or_low", "or_complete_time", "complete_idx", "end_idx"])
         _or_cache[cache_key] = res
         return res
 
     res = pd.DataFrame(rows)
     _or_cache[cache_key] = res
     return res
+
 
 
 def _compute_swing_lows(df: pd.DataFrame, window: int = 3) -> pd.Series:
@@ -240,37 +254,28 @@ def _run_sorb_backtest_single_asset(
         or_lows = or_table["or_low"].to_numpy()
         or_dates = or_table["date"].to_numpy()
         or_complete_times = or_table["or_complete_time"].to_numpy()
+        complete_idxs = or_table["complete_idx"].to_numpy()
+        end_idxs = or_table["end_idx"].to_numpy()
 
         for idx in range(len(or_table)):
             date = or_dates[idx]
             or_high = or_highs[idx]
             or_low = or_lows[idx]
             or_complete_time = or_complete_times[idx]
+            complete_idx = complete_idxs[idx]
+            end_idx = end_idxs[idx]
 
             session_key = (date, open_hour)
             if session_key in active_session_keys:
                 continue  # Already traded this session
 
-            ts_complete = pd.Timestamp(or_complete_time)
-            session_window_end = pd.Timestamp(
-                year=ts_complete.year,
-                month=ts_complete.month,
-                day=ts_complete.day,
-                hour=close_hour,
-                tz=df.index.tz,
-            )
-
-            # Find slice boundaries using DatetimeIndex.searchsorted
-            complete_idx = df.index.searchsorted(ts_complete)
-            end_idx = df.index.searchsorted(session_window_end, side="right")
-
-
-
-
             if complete_idx + 1 >= end_idx:
                 continue
 
+            ts_complete = pd.Timestamp(or_complete_time)
+
             post_close = df_close[complete_idx + 1 : end_idx]
+
             post_open = df_open[complete_idx + 1 : end_idx]
             post_high = df_high[complete_idx + 1 : end_idx]
             post_low = df_low[complete_idx + 1 : end_idx]
