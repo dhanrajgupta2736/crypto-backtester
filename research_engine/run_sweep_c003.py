@@ -226,11 +226,23 @@ def build_experiment_grid() -> List[Dict[str, Any]]:
 
 
 # ---------------------------------------------------------------------------
-# Worker function (runs in subprocess — must be top-level for pickling)
+# Worker initialization and function (runs in subprocess — must be top-level for pickling)
 # ---------------------------------------------------------------------------
 
+# Subprocess globals to avoid copying dataframes over IPC on every experiment
+_worker_universe_15m = None
+_worker_universe_1h = None
+
+
+def _init_worker(u15m: dict, u1h: dict) -> None:
+    """Initialize subprocess worker pool with global dataframes to avoid IPC overhead."""
+    global _worker_universe_15m, _worker_universe_1h
+    _worker_universe_15m = u15m
+    _worker_universe_1h = u1h
+
+
 def _worker_run_experiment(
-    args: Tuple[Dict[str, Any], Dict[str, pd.DataFrame]],
+    args: Tuple[Dict[str, Any], Optional[Dict[str, pd.DataFrame]]],
 ) -> Dict[str, Any]:
     """Execute a single SORB experiment (runs inside a worker process).
 
@@ -241,6 +253,11 @@ def _worker_run_experiment(
         Result record dict.
     """
     params, universe_data = args
+
+    # IPC optimization: use global dataframes if available
+    global _worker_universe_15m, _worker_universe_1h
+    if universe_data is None:
+        universe_data = _worker_universe_1h if params["timeframe"] == "1H" else _worker_universe_15m
 
     try:
         # Import here (subprocess context)
@@ -665,12 +682,15 @@ def run_sweep(workers: int = 7, dry_run: bool = False) -> None:
     done_count = len(completed_records)
     checkpoint_interval = 50  # save every N completed experiments
 
-    with ProcessPoolExecutor(max_workers=workers) as executor:
+    with ProcessPoolExecutor(
+        max_workers=workers,
+        initializer=_init_worker,
+        initargs=(universe_15m, universe_1h),
+    ) as executor:
         # Build future map
         future_to_params: dict = {}
         for params in pending:
-            universe_data = universe_1h if params["timeframe"] == "1H" else universe_15m
-            future = executor.submit(_worker_run_experiment, (params, universe_data))
+            future = executor.submit(_worker_run_experiment, (params, None))
             future_to_params[future] = params
 
         for future in as_completed(future_to_params):
