@@ -1,0 +1,93 @@
+# Candidate C003 — Session Open Range Breakout (SORB)
+# QRP Framework v2.0 — Phase 1 Discovery Sweep Configuration
+
+candidate:
+  metadata:
+    id: "C003"
+    name: "Session Open Range Breakout (SORB)"
+    version: "1.0.0"
+    research_version: "v1.0"
+    framework_version: "QRP Framework v2.0"
+    author: "Quant Team"
+    description: >
+      Long-only intraday strategy. Enters when price breaks above the Open Range High
+      of the London (07:00 UTC) or New York (13:00 UTC) session. Tested across
+      timeframes, range widths, stop methods, exit methods, and trend filters.
+
+  plugin:
+    module_path: "research/candidate_03/code/strategy_plugin.py"
+    class_name: "StrategyPlugin"
+
+  universe:
+    asset_class: "crypto"
+    symbols:
+      - "AAVE"
+      - "ADA"
+      - "AVAX"
+      - "BNB"
+      - "BTC"
+      - "DOGE"
+      - "DOT"
+      - "ENA"
+      - "ETH"
+      - "HBAR"
+      - "HYPE"
+      - "INJ"
+      - "LINK"
+      - "LTC"
+      - "NEAR"
+      - "ONDO"
+      - "RENDER"
+      - "SOL"
+      - "SUI"
+      - "TAO"
+      - "TRX"
+      - "UNI"
+      - "WLD"
+      - "XRP"
+      - "ZEC"
+
+  # Primary data resolution. 1H is loaded directly when timeframe=1H is tested.
+  timeframes:
+    - "15m"
+    - "1H"
+
+  portfolio:
+    max_active_positions: 5        # Allow up to 5 concurrent intraday SORB positions
+    capital_allocation: "EQUAL"
+    trading_direction: "LONG_ONLY"
+
+  rebalance:
+    frequency_bars: 1
+    trigger_type: "SCHEDULED"
+
+  # Session timing constants (UTC, crypto-perpetual — no DST)
+  session_config:
+    london_open_utc: 7             # 07:00 UTC
+    london_close_utc: 11           # 11:00 UTC (4H window)
+    newyork_open_utc: 13           # 13:00 UTC
+    newyork_close_utc: 17          # 17:00 UTC (4H window)
+
+  # Fee model — identical to C001/C002 for cross-candidate comparability
+  execution:
+    taker_fee_rate: 0.00045        # 0.045%
+    slippage_rate: 0.0005          # 0.05%
+
+  validation:
+    min_trades:
+      "15m": 50
+      "1H": 50
+    performance_gates:
+      min_profit_factor: 1.40
+      min_sharpe: 0.80
+      max_drawdown_pct: 35.0
+      require_positive_return: true
+
+  logging:
+    segregate_files: true
+    verbose: false
+
+  outputs:
+    save_trades_csv: true
+    save_equity_curve_csv: true
+    save_plots: false

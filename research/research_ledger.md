@@ -167,4 +167,44 @@ This document serves as the institutional ledger tracking all research phases, d
 | 2026-06-30 | Candidate 02 V2 | Stage 2: Discovery Sweep | `ARCHIVED` | candidate_02_vcp_v2/outputs/discovery_matrix_results.csv, candidate_02_vcp_v2/outputs/ranked_candidates.csv, candidate_02_vcp_v2/reports/candidate_summary.md | Executed 6-experiment V2 parameter sweep varying swing window [3, 5, 7] on 1H/4H. Winner was 4H, SW=7 (V1 Baseline). Archived in favor of V3. |
 | 2026-06-30 | Candidate 02 V3 | Stage 2: Discovery Sweep | `COMPLETED` | candidate_02_vcp_v3/outputs/discovery_matrix_results.csv, candidate_02_vcp_v3/outputs/ranked_candidates.csv, candidate_02_vcp_v3/reports/candidate_summary.md | Executed 6-experiment V3 parameter sweep varying contraction waves [2, 3, "adaptive"] on 1H/4H. Winner is 4H, Waves=3 (control). Adaptive waves generated 288 trades with Sharpe 0.85. |
 | 2026-06-30 | Candidate 02 | Pareto Analysis | `COMPLETED` | candidate_02_vcp/reports/pareto_analysis.md | Conducted multi-objective Pareto Frontier analysis across V1, V2, and V3 sweeps. Proposed a revised V2 Quality Score to prevent Profit Factor distortion and reward trade density. |
+| 2026-07-01 | Candidate 03 | Phase 0: Research | `RESEARCH` | `candidate_03/objective_definition.md`, `candidate_03/research_hypothesis.md`, `candidate_03/parameter_space.md`, `candidate_03/candidate_variants.md`, `candidate_03/reports/literature_review.md` | 10-approach literature review completed. SORB (Session Open Range Breakout) selected. H1/H2/H3 hypotheses locked. Parameter space of 432 baseline configurations defined. 12 variants designed. Pending Phase 1 implementation approval. |
 
+---
+
+## Candidate 03: Session Open Range Breakout (SORB)
+
+### Current Status
+* **Current Stage**: Phase 0 — Research & Specification
+* **Current Status**: `RESEARCH` (All specification documents completed; awaiting implementation approval for Phase 1 Discovery Sweep)
+* **Last Updated**: 2026-07-01
+
+---
+
+### Key Information
+
+#### Documents Created
+* `research/candidate_03/reports/literature_review.md`
+* `research/candidate_03/objective_definition.md`
+* `research/candidate_03/research_hypothesis.md`
+* `research/candidate_03/parameter_space.md`
+* `research/candidate_03/candidate_variants.md`
+* `research/candidate_03/research_ledger.md`
+
+#### Key Assumptions
+1. **Session Liquidity**: London (07:00 UTC) and New York (13:00 UTC) opens generate measurable and predictable volume spikes in crypto perpetual markets.
+2. **Directional Continuation**: Price expanding above the Open Range High at session opens reflects genuine institutional order flow and tends to persist for at least 4 hours.
+3. **Fee Model Parity**: The same fee model as C001 and C002 (taker 0.045%, slippage 0.05%) applies.
+
+#### Locked Hypotheses
+* **Long-Only**: Positions restricted to long direction (short version reserved for C003-S).
+* **No Indicator Stacking**: RSI, MACD, Bollinger Bands, and ADX banned during Discovery Sweep.
+* **Closed Candle Execution**: Breakout signals computed on closed candles; entry at next candle open.
+* **Fixed Universe**: Same 25 crypto perpetuals as C001 and C002.
+
+#### Outstanding Questions
+1. Does the research engine support UTC session-time filtering (07:00, 13:00) natively?
+2. Are 15m OHLCV candles available and clean for all 25 assets?
+3. Do high-impact macro events (FOMC, CPI) cause disproportionate false SORB signals requiring event filters?
+
+#### Decision
+`RESEARCH` (Specification complete. Awaiting researcher approval to begin Phase 1 Discovery Sweep implementation.)
